@@ -1,6 +1,9 @@
 import rhinoscriptsyntax as rs
 import Rhino as R
 
+#https://developer.rhino3d.com/api/RhinoScriptSyntax/#selection-ObjectsByType
+CURVE_TYPE = 4;
+
 def odds(xs):
     return [val for (idx, val) in enumerate(xs) if idx % 2 == 1]
 
@@ -11,7 +14,7 @@ def pairs(xs):
     return zip(odds(xs), evens(xs))
 
 diffs = []
-curves = rs.ObjectsByType(4)
+curves = rs.ObjectsByType(CURVE_TYPE)
 
 for (odd, even) in pairs(curves):
     odd_len = rs.CurveLength(odd)
