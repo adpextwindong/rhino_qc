@@ -14,7 +14,7 @@ def pairs(xs):
     return zip(odds(xs), evens(xs))
 
 diffs = []
-curves = rs.ObjectsByType(CURVE_TYPE)
+curves = [ o for o in rs.VisibleObjects() if rs.ObjectType(o) == CURVE_TYPE]
 
 for (odd, even) in pairs(curves):
     odd_len = rs.CurveLength(odd)
