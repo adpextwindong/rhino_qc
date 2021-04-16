@@ -4,6 +4,10 @@ import Rhino as R
 #https://developer.rhino3d.com/api/RhinoScriptSyntax/#selection-ObjectsByType
 CURVE_TYPE = 4;
 
+#TODO
+#Prompt for selection of two meshes
+#Go through countour line process, assert that its on axis along foot length
+#Delete extraneous open curves
 def odds(xs):
     return [val for (idx, val) in enumerate(xs) if idx % 2 == 1]
 
@@ -15,6 +19,10 @@ def pairs(xs):
 
 diffs = []
 curves = [ o for o in rs.VisibleObjects() if rs.ObjectType(o) == CURVE_TYPE]
+
+#TODO
+#Its probably just easier to only pair things that are close on the axis and similar in size
+#to get around the open curve issue
 
 for (odd, even) in pairs(curves):
     odd_len = rs.CurveLength(odd)
