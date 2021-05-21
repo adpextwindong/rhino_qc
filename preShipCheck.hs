@@ -12,7 +12,7 @@ filterQCDirs = filter (\p -> ((== "qc") $ take 2 p))
 
 neededFileSet :: String -> Set.Set FilePath
 neededFileSet serial = Set.fromList serialedFiles
-    where serialedFiles = liftA2 (++) [serial] [".fbd", ".stl", "fit.stl", ".3dm", "_report.txt"]
+    where serialedFiles = liftA2 (++) [serial] [".fbd", ".stl", "fit.stl", ".3dm", "_report.txt", ".ginspect"]
 
 type Serial = String -- we could newtype smart constructor this
 containsNeededFiles :: Serial -> [FilePath] -> Bool
