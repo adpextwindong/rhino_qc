@@ -7,6 +7,9 @@ import Control.Monad
 import Control.Applicative
 import qualified Data.Set as Set
 
+-- TODO take after this style to this nicer to deal with
+-- https://web.engr.oregonstate.edu/~erwig/papers/DeclScripting_SLE09.pdf
+
 filterQCDirs :: [FilePath] -> [FilePath]
 filterQCDirs = filter (\p -> ((== "qc") $ take 2 p))
 
