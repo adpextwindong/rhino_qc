@@ -1,5 +1,7 @@
 #!/usr/bin/env stack
 -- stack --resolver lts-17.9 --install-ghc script --package filepath --package directory --package containers
+{-# LANGUAGE ViewPatterns #-}
+
 
 import System.FilePath
 import System.Directory
@@ -13,14 +15,15 @@ import qualified Data.Set as Set
 filterQCDirs :: [FilePath] -> [FilePath]
 filterQCDirs = filter (\p -> ((== "qc") $ take 2 p))
 
+--TODO use new serial newtype
 neededFileSet :: String -> Set.Set FilePath
 neededFileSet serial = Set.fromList serialedFiles
     where serialedFiles = liftA2 (++) [serial] [".fbd", ".stl", "fit.stl", ".3dm", "_report.txt", ".ginspect"]
 
-type Serial = String -- we could newtype smart constructor this
-containsNeededFiles :: Serial -> [FilePath] -> Bool
-containsNeededFiles s entries = let entrySet = Set.fromList entries in
-                                Set.isSubsetOf (neededFileSet s) entrySet
+--TODO change string type to serial
+containsNeededFiles :: String -> [FilePath] -> Bool
+containsNeededFiles serial entries = let entrySet = Set.fromList entries in
+                                Set.isSubsetOf (neededFileSet serial) entrySet
 
 --TODO TUI wrangling strategies of misnamed files
 
@@ -39,3 +42,11 @@ main = do
 
     print $ filter (not . fst) $ zip results qcDirs
     return()
+
+
+type FileSet = Set.Set FilePath
+newtype Serial = MkSerial String -- we could newtype smart constructor this
+
+mkSerial :: String -> Maybe Serial
+mkSerial s@(splitAt 3 -> ("20A", xs)) = Just $ MkSerial s
+mkSerial _ = Nothing
